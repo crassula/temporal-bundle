@@ -13,14 +13,14 @@
 ## Requirements:
 
 - php >= 8.2
-- symfony >= 6.0
+- symfony >= 5.4
 
 ## Installation:
 
 1. Connect recipes
 
 ```bash
-composer config --json extra.symfony.endpoint '["https://raw.githubusercontent.com/VantaFinance/temporal-bundle/main/.recipie/index.json", "flex://defaults"]' 
+composer config --json extra.symfony.endpoint '["https://raw.githubusercontent.com/crassula/temporal-bundle/main/.recipie/index.json", "flex://defaults"]' 
 ```
 
 2. Install package
@@ -40,6 +40,7 @@ If [`DoctrineBundle`](https://github.com/doctrine/DoctrineBundle) is use, the fo
 - `temporal.doctrine_ping_connection_<entity-mananger-name>.finalizer`
 - `temporal.doctrine_clear_entity_manager.finalizer`
 
+(Instead if `temporal.doctrine_clear_entity_manager.finalizer` it is better to use `temporal.symfony_resetter.finalizer`)
 
 And interceptors: 
 - `temporal.doctrine_ping_connection_<entity-mananger-name>_activity_inbound.interceptor`

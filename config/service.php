@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use Vanta\Integration\Symfony\Temporal\Finalizer\SymfonyResetterFinalizer;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -65,4 +66,11 @@ return static function (ContainerConfigurator $configurator): void {
             ->call('withName', ['temporal'], true)
         ;
     }
+
+    $services->set('temporal.symfony_resetter.finalizer', SymfonyResetterFinalizer::class)
+        ->args([
+            service('services_resetter'),
+        ])
+        ->tag('temporal.finalizer')
+    ;
 };
