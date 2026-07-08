@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Vanta\Integration\Symfony\Temporal\Interceptor;
 
-use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\ORM\Exception\EntityManagerClosed;
 use Temporal\Interceptor\ActivityInbound\ActivityInput;
 use Temporal\Interceptor\ActivityInboundInterceptor;
 use Throwable;
@@ -31,16 +29,8 @@ final readonly class DoctrineActivityInboundInterceptor implements ActivityInbou
      */
     public function handleActivityInbound(ActivityInput $input, callable $next): mixed
     {
-        try {
-            $result = $next($input);
-        } catch (Throwable $e) {
-            if ($e instanceof EntityManagerClosed || $e instanceof DriverException) {
-                $this->finalizer->finalize();
-            }
+        $this->finalizer->finalize();
 
-            throw $e;
-        }
-
-        return $result;
+        return $next($input);
     }
 }
